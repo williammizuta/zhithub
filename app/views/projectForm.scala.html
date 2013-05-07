@@ -1,0 +1,12 @@
+@(projectForm: Form[String])
+@import helper._
+
+
+@main("Zhithub") {
+
+	@form(routes.ProjectController.saveProject) {
+		@inputText(projectForm("projectName")) 
+		<input type="submit" />
+	}
+	
+}

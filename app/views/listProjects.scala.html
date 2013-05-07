@@ -1,0 +1,12 @@
+@(projects: List[Project])
+
+@main("Zhithub") {
+
+	<ul>
+	@projects.map { project =>
+	    <li>
+	        @project.name - @project.id
+	    </li>
+	}    
+	</ul>
+}
