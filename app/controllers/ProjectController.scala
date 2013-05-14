@@ -22,9 +22,7 @@ object ProjectController extends Controller {
       projectForm.bindFromRequest.fold(
         errors => BadRequest(views.html.projectForm(projectForm)),
         projectName => {
-          val repos = new File("/tmp/repos")
-          repos.mkdirs();
-          val repo = new RepositoryFactory(repos).buildBare(projectName);
+          val repo = new RepositoryFactory(RepositoriesHome.repos).buildBare(projectName);
           Project.create(projectName)
           Redirect(routes.ProjectController.projects)
         })
@@ -32,5 +30,20 @@ object ProjectController extends Controller {
 
   def projects = Action {
     Ok(views.html.listProjects(Project.all))
+  }
+
+  def showProject(name: String) = Action {
+    Ok(views.html.project(Project.find(name)))
+  }
+
+}
+
+object RepositoriesHome {
+  val rootPath = play.Configuration.root().getString("projects.repositories.root");
+  val sshServer = play.Configuration.root().getString("ssh.server.address");
+  val serverUser = play.Configuration.root().getString("ssh.server.user");
+  val repos = new File(rootPath)
+  def urlFor(project: Project): String = {
+    serverUser + "@" + sshServer + ":" + rootPath + "/" + project.name
   }
 }

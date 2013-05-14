@@ -5,7 +5,7 @@
 	<ul>
 	@projects.map { project =>
 	    <li>
-	        @project.name - @project.id
+	        <a href="@routes.ProjectController.showProject(project.name)">@project.name</a> - @project.id
 	    </li>
 	}    
 	</ul>

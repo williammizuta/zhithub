@@ -23,10 +23,15 @@ object Project {
     }
   }
 
-  def all:List[Project] = {
+  def all: List[Project] = {
     DB.withConnection { implicit c =>
       SQL("select * from Project").as(project *)
     }
+  }
 
+  def find(name: String): Project = {
+    DB.withConnection { implicit c =>
+      SQL("select * from Project where name={name}").on("name" -> name).as(project single)
+    }
   }
 }
