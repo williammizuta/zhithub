@@ -22,9 +22,9 @@ object ProjectController extends Controller {
       projectForm.bindFromRequest.fold(
         errors => BadRequest(views.html.projectForm(projectForm)),
         projectName => {
-//          val repos = new File("/tmp/repos")
-//          repos.mkdirs();
-//          val repo = new RepositoryFactory(repos).build(projectName);
+          val repos = new File("/tmp/repos")
+          repos.mkdirs();
+          val repo = new RepositoryFactory(repos).buildBare(projectName);
           Project.create(projectName)
           Redirect(routes.ProjectController.projects)
         })
